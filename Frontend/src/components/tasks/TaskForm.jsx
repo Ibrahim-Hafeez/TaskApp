@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { createTask, updateMyTask } from "../../services/taskService";
+import styles from "./TaskForm.module.css";
 
 const emptyForm = {
   title: "",
@@ -79,18 +80,10 @@ function TaskForm({ onTaskCreated, editingTask, onTaskUpdated, onCancelEdit }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={styles.form}>
       {/* Title */}
-      <div style={{ marginBottom: "18px" }}>
-        <label
-          htmlFor="title"
-          style={{
-            display: "block",
-            marginBottom: "7px",
-            fontWeight: "600",
-            color: "#374151",
-          }}
-        >
+      <div className={styles.field}>
+        <label htmlFor="title" className={styles.label}>
           Task Title
         </label>
 
@@ -101,29 +94,13 @@ function TaskForm({ onTaskCreated, editingTask, onTaskUpdated, onCancelEdit }) {
           value={formData.title}
           onChange={handleChange}
           placeholder="Enter task title"
-          style={{
-            width: "100%",
-            boxSizing: "border-box",
-            padding: "11px 12px",
-            border: "1px solid #d1d5db",
-            borderRadius: "8px",
-            fontSize: "15px",
-            outline: "none",
-          }}
+          className={styles.input}
         />
       </div>
 
       {/* Description */}
-      <div style={{ marginBottom: "18px" }}>
-        <label
-          htmlFor="description"
-          style={{
-            display: "block",
-            marginBottom: "7px",
-            fontWeight: "600",
-            color: "#374151",
-          }}
-        >
+      <div className={styles.field}>
+        <label htmlFor="description" className={styles.label}>
           Description
         </label>
 
@@ -134,39 +111,15 @@ function TaskForm({ onTaskCreated, editingTask, onTaskUpdated, onCancelEdit }) {
           onChange={handleChange}
           placeholder="Enter task description"
           rows="4"
-          style={{
-            width: "100%",
-            boxSizing: "border-box",
-            padding: "11px 12px",
-            border: "1px solid #d1d5db",
-            borderRadius: "8px",
-            fontSize: "15px",
-            resize: "vertical",
-            fontFamily: "inherit",
-          }}
+          className={styles.textarea}
         />
       </div>
 
       {/* Priority and Due Date */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "18px",
-          marginBottom: "20px",
-        }}
-      >
+      <div className={styles.detailsRow}>
         {/* Priority */}
-        <div>
-          <label
-            htmlFor="priority"
-            style={{
-              display: "block",
-              marginBottom: "7px",
-              fontWeight: "600",
-              color: "#374151",
-            }}
-          >
+        <div className={styles.field}>
+          <label htmlFor="priority" className={styles.label}>
             Priority
           </label>
 
@@ -175,15 +128,7 @@ function TaskForm({ onTaskCreated, editingTask, onTaskUpdated, onCancelEdit }) {
             name="priority"
             value={formData.priority}
             onChange={handleChange}
-            style={{
-              width: "100%",
-              boxSizing: "border-box",
-              padding: "11px 12px",
-              border: "1px solid #d1d5db",
-              borderRadius: "8px",
-              fontSize: "15px",
-              backgroundColor: "#fff",
-            }}
+            className={styles.select}
           >
             <option value="low">Low</option>
             <option value="medium">Medium</option>
@@ -192,16 +137,8 @@ function TaskForm({ onTaskCreated, editingTask, onTaskUpdated, onCancelEdit }) {
         </div>
 
         {/* Due Date */}
-        <div>
-          <label
-            htmlFor="dueDate"
-            style={{
-              display: "block",
-              marginBottom: "7px",
-              fontWeight: "600",
-              color: "#374151",
-            }}
-          >
+        <div className={styles.field}>
+          <label htmlFor="dueDate" className={styles.label}>
             Due Date
           </label>
 
@@ -211,56 +148,24 @@ function TaskForm({ onTaskCreated, editingTask, onTaskUpdated, onCancelEdit }) {
             type="date"
             value={formData.dueDate}
             onChange={handleChange}
-            style={{
-              width: "100%",
-              boxSizing: "border-box",
-              padding: "10px 12px",
-              border: "1px solid #d1d5db",
-              borderRadius: "8px",
-              fontSize: "15px",
-              backgroundColor: "#fff",
-            }}
+            className={styles.input}
           />
         </div>
       </div>
 
       {/* Error */}
       {errorMsg && (
-        <div
-          style={{
-            marginBottom: "18px",
-            padding: "11px 12px",
-            borderRadius: "8px",
-            backgroundColor: "#fee2e2",
-            color: "#b91c1c",
-            fontSize: "14px",
-          }}
-        >
+        <div className={styles.error} role="alert">
           {errorMsg}
         </div>
       )}
 
       {/* Buttons */}
-      <div
-        style={{
-          display: "flex",
-          gap: "10px",
-          flexWrap: "wrap",
-        }}
-      >
+      <div className={styles.actions}>
         <button
           type="submit"
           disabled={loading}
-          style={{
-            border: "none",
-            borderRadius: "8px",
-            padding: "11px 20px",
-            backgroundColor: loading ? "#9ca3af" : "#2563eb",
-            color: "#fff",
-            cursor: loading ? "not-allowed" : "pointer",
-            fontWeight: "600",
-            fontSize: "14px",
-          }}
+          className={`${styles.button} ${styles.submitButton}`}
         >
           {loading
             ? editingTask
@@ -276,16 +181,7 @@ function TaskForm({ onTaskCreated, editingTask, onTaskUpdated, onCancelEdit }) {
             type="button"
             onClick={onCancelEdit}
             disabled={loading}
-            style={{
-              border: "1px solid #d1d5db",
-              borderRadius: "8px",
-              padding: "11px 20px",
-              backgroundColor: "#fff",
-              color: "#374151",
-              cursor: loading ? "not-allowed" : "pointer",
-              fontWeight: "600",
-              fontSize: "14px",
-            }}
+            className={`${styles.button} ${styles.cancelButton}`}
           >
             Cancel
           </button>
