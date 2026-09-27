@@ -1,30 +1,13 @@
 import { deleteMyTask, updateMyTask } from "../../services/taskService";
+import styles from "./TaskList.module.css";
 
 const TaskList = ({ tasks, onTaskUpdated, onTaskDeleted, onEditTask }) => {
   if (tasks.length === 0) {
     return (
-      <div
-        style={{
-          textAlign: "center",
-          padding: "35px 20px",
-          color: "#6b7280",
-        }}
-      >
-        <p
-          style={{
-            margin: 0,
-            fontSize: "16px",
-          }}
-        >
-          No tasks found.
-        </p>
+      <div className={styles.emptyState}>
+        <p className={styles.emptyTitle}>No tasks found.</p>
 
-        <p
-          style={{
-            marginTop: "8px",
-            fontSize: "14px",
-          }}
-        >
+        <p className={styles.emptyDescription}>
           Add a new task above to get started.
         </p>
       </div>
@@ -61,25 +44,16 @@ const TaskList = ({ tasks, onTaskUpdated, onTaskDeleted, onEditTask }) => {
     }
   };
 
-  const getPriorityStyle = (priority) => {
+  const getPriorityClass = (priority) => {
     if (priority === "high") {
-      return {
-        backgroundColor: "#fee2e2",
-        color: "#b91c1c",
-      };
+      return styles.highPriority;
     }
 
-    if (priority === "medium") {
-      return {
-        backgroundColor: "#fef3c7",
-        color: "#92400e",
-      };
+    if (priority === "low") {
+      return styles.lowPriority;
     }
 
-    return {
-      backgroundColor: "#dcfce7",
-      color: "#166534",
-    };
+    return styles.mediumPriority;
   };
 
   const getPriorityLabel = (priority) => {
@@ -102,91 +76,55 @@ const TaskList = ({ tasks, onTaskUpdated, onTaskDeleted, onEditTask }) => {
     <div>
       {tasks.map((task) => {
         const overdue = isOverdue(task);
-        const priorityStyle = getPriorityStyle(task.priority);
 
         return (
           <div
             key={task._id}
-            style={{
-              border: overdue ? "1px solid #fca5a5" : "1px solid #e5e7eb",
-              borderRadius: "12px",
-              padding: "20px",
-              marginBottom: "16px",
-              backgroundColor: task.completed ? "#f9fafb" : "#fff",
-              boxShadow: "0 1px 4px rgba(0, 0, 0, 0.05)",
-            }}
+            className={`
+              ${styles.taskCard}
+              ${task.completed ? styles.completedCard : ""}
+              ${overdue ? styles.overdueCard : ""}
+            `}
           >
             {/* Top section */}
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-start",
-                gap: "15px",
-                flexWrap: "wrap",
-              }}
-            >
-              <div style={{ flex: 1 }}>
+            <div className={styles.topSection}>
+              <div className={styles.taskContent}>
                 <h3
-                  style={{
-                    margin: 0,
-                    fontSize: "20px",
-                    color: task.completed ? "#6b7280" : "#111827",
-                    textDecoration: task.completed ? "line-through" : "none",
-                  }}
+                  className={`
+                    ${styles.taskTitle}
+                    ${task.completed ? styles.completedTitle : ""}
+                  `}
                 >
                   {task.title}
                 </h3>
 
                 {task.description && (
-                  <p
-                    style={{
-                      marginTop: "8px",
-                      marginBottom: 0,
-                      color: "#6b7280",
-                      lineHeight: "1.5",
-                    }}
-                  >
-                    {task.description}
-                  </p>
+                  <p className={styles.description}>{task.description}</p>
                 )}
               </div>
 
               {/* Status */}
               <span
-                style={{
-                  padding: "5px 10px",
-                  borderRadius: "999px",
-                  fontSize: "12px",
-                  fontWeight: "600",
-                  backgroundColor: task.completed ? "#dcfce7" : "#e5e7eb",
-                  color: task.completed ? "#166534" : "#374151",
-                  whiteSpace: "nowrap",
-                }}
+                className={`
+                  ${styles.status}
+                  ${
+                    task.completed
+                      ? styles.completedStatus
+                      : styles.pendingStatus
+                  }
+                `}
               >
                 {task.completed ? "Completed" : "Pending"}
               </span>
             </div>
 
             {/* Task information */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                flexWrap: "wrap",
-                marginTop: "18px",
-              }}
-            >
+            <div className={styles.taskInfo}>
               {/* Priority */}
               <span
-                style={{
-                  ...priorityStyle,
-                  padding: "5px 10px",
-                  borderRadius: "6px",
-                  fontSize: "12px",
-                  fontWeight: "600",
-                }}
+                className={`${styles.priority} ${getPriorityClass(
+                  task.priority,
+                )}`}
               >
                 {getPriorityLabel(task.priority)} Priority
               </span>
@@ -194,14 +132,9 @@ const TaskList = ({ tasks, onTaskUpdated, onTaskDeleted, onEditTask }) => {
               {/* Due date */}
               {task.dueDate && (
                 <span
-                  style={{
-                    padding: "5px 10px",
-                    borderRadius: "6px",
-                    fontSize: "12px",
-                    fontWeight: "600",
-                    backgroundColor: overdue ? "#fee2e2" : "#f3f4f6",
-                    color: overdue ? "#b91c1c" : "#4b5563",
-                  }}
+                  className={`${styles.dueDate} ${
+                    overdue ? styles.overdueDate : ""
+                  }`}
                 >
                   {overdue ? "Overdue" : "Due"}{" "}
                   {new Date(task.dueDate).toLocaleDateString()}
@@ -210,60 +143,26 @@ const TaskList = ({ tasks, onTaskUpdated, onTaskDeleted, onEditTask }) => {
             </div>
 
             {/* Actions */}
-            <div
-              style={{
-                display: "flex",
-                gap: "8px",
-                flexWrap: "wrap",
-                marginTop: "18px",
-                paddingTop: "15px",
-                borderTop: "1px solid #f0f0f0",
-              }}
-            >
+            <div className={styles.actions}>
               <button
                 onClick={() => handleComplete(task)}
-                style={{
-                  border: "none",
-                  borderRadius: "7px",
-                  padding: "9px 14px",
-                  backgroundColor: task.completed ? "#f59e0b" : "#16a34a",
-                  color: "#fff",
-                  cursor: "pointer",
-                  fontWeight: "600",
-                  fontSize: "13px",
-                }}
+                className={`${styles.actionButton} ${
+                  task.completed ? styles.pendingButton : styles.completeButton
+                }`}
               >
                 {task.completed ? "Mark Pending" : "Complete"}
               </button>
 
               <button
                 onClick={() => onEditTask(task)}
-                style={{
-                  border: "1px solid #d1d5db",
-                  borderRadius: "7px",
-                  padding: "9px 14px",
-                  backgroundColor: "#fff",
-                  color: "#374151",
-                  cursor: "pointer",
-                  fontWeight: "600",
-                  fontSize: "13px",
-                }}
+                className={`${styles.actionButton} ${styles.editButton}`}
               >
                 Edit
               </button>
 
               <button
                 onClick={() => handleDelete(task)}
-                style={{
-                  border: "none",
-                  borderRadius: "7px",
-                  padding: "9px 14px",
-                  backgroundColor: "#dc2626",
-                  color: "#fff",
-                  cursor: "pointer",
-                  fontWeight: "600",
-                  fontSize: "13px",
-                }}
+                className={`${styles.actionButton} ${styles.deleteButton}`}
               >
                 Delete
               </button>
