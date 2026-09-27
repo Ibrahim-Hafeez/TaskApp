@@ -3,6 +3,7 @@ import TaskForm from "../../components/tasks/TaskForm";
 import TaskList from "../../components/tasks/TaskList";
 import { getMyTasks } from "../../services/taskService";
 import { logoutUser } from "../../services/logoutService";
+import styles from "./TaskPage.module.css";
 
 function TaskPage() {
   const [tasks, setTasks] = useState([]);
@@ -89,84 +90,24 @@ function TaskPage() {
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        backgroundColor: "#f4f6f8",
-        padding: "30px 20px",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "1100px",
-          margin: "0 auto",
-        }}
-      >
+    <div className={styles.page}>
+      <div className={styles.container}>
         {/* Header */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "30px",
-            gap: "20px",
-            flexWrap: "wrap",
-          }}
-        >
-          <div>
-            <h1
-              style={{
-                margin: 0,
-                fontSize: "32px",
-                color: "#111827",
-              }}
-            >
-              My Tasks
-            </h1>
+        <div className={styles.header}>
+          <div className={styles.headerContent}>
+            <h1>My Tasks</h1>
 
-            <p
-              style={{
-                marginTop: "8px",
-                marginBottom: 0,
-                color: "#6b7280",
-              }}
-            >
-              Manage your tasks and stay organized.
-            </p>
+            <p>Manage your tasks and stay organized.</p>
           </div>
 
-          <button
-            onClick={handleLogout}
-            style={{
-              border: "none",
-              borderRadius: "8px",
-              padding: "10px 18px",
-              backgroundColor: "#dc2626",
-              color: "#fff",
-              cursor: "pointer",
-              fontWeight: "600",
-            }}
-          >
+          <button onClick={handleLogout} className={styles.logoutButton}>
             Logout
           </button>
         </div>
 
         {/* Task Form */}
-        <div
-          style={{
-            backgroundColor: "#fff",
-            borderRadius: "12px",
-            padding: "24px",
-            marginBottom: "25px",
-            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
-          }}
-        >
-          <h2
-            style={{
-              marginTop: 0,
-              color: "#111827",
-            }}
-          >
+        <div className={styles.card}>
+          <h2 className={styles.cardTitle}>
             {editingTask ? "Edit Task" : "Add a New Task"}
           </h2>
 
@@ -179,33 +120,11 @@ function TaskPage() {
         </div>
 
         {/* Filters */}
-        <div
-          style={{
-            backgroundColor: "#fff",
-            borderRadius: "12px",
-            padding: "20px",
-            marginBottom: "25px",
-            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
-          }}
-        >
-          <h2
-            style={{
-              marginTop: 0,
-              color: "#111827",
-            }}
-          >
-            Filters
-          </h2>
+        <div className={styles.card}>
+          <h2 className={styles.cardTitle}>Filters</h2>
 
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "15px",
-              flexWrap: "wrap",
-            }}
-          >
-            <div>
+          <div className={styles.filterRow}>
+            <div className={styles.filterGroup}>
               <label htmlFor="completedFilter">
                 <strong>Status:</strong>
               </label>
@@ -215,12 +134,7 @@ function TaskPage() {
                 name="completed"
                 value={filters.completed}
                 onChange={handleFilterChange}
-                style={{
-                  marginLeft: "8px",
-                  padding: "8px",
-                  borderRadius: "6px",
-                  border: "1px solid #d1d5db",
-                }}
+                className={styles.filterSelect}
               >
                 <option value="">All</option>
                 <option value="false">Pending</option>
@@ -228,7 +142,7 @@ function TaskPage() {
               </select>
             </div>
 
-            <div>
+            <div className={styles.filterGroup}>
               <label htmlFor="priorityFilter">
                 <strong>Priority:</strong>
               </label>
@@ -238,12 +152,7 @@ function TaskPage() {
                 name="priority"
                 value={filters.priority}
                 onChange={handleFilterChange}
-                style={{
-                  marginLeft: "8px",
-                  padding: "8px",
-                  borderRadius: "6px",
-                  border: "1px solid #d1d5db",
-                }}
+                className={styles.filterSelect}
               >
                 <option value="">All</option>
                 <option value="low">Low</option>
@@ -252,14 +161,7 @@ function TaskPage() {
               </select>
             </div>
 
-            <label
-              htmlFor="overdueFilter"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "6px",
-              }}
-            >
+            <label htmlFor="overdueFilter" className={styles.overdueLabel}>
               <input
                 id="overdueFilter"
                 name="overdue"
@@ -274,13 +176,7 @@ function TaskPage() {
             <button
               type="button"
               onClick={clearFilters}
-              style={{
-                padding: "8px 14px",
-                borderRadius: "6px",
-                border: "1px solid #d1d5db",
-                backgroundColor: "#fff",
-                cursor: "pointer",
-              }}
+              className={styles.clearButton}
             >
               Clear Filters
             </button>
@@ -288,63 +184,18 @@ function TaskPage() {
         </div>
 
         {/* Task List */}
-        <div
-          style={{
-            backgroundColor: "#fff",
-            borderRadius: "12px",
-            padding: "24px",
-            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "20px",
-            }}
-          >
-            <h2
-              style={{
-                margin: 0,
-                color: "#111827",
-              }}
-            >
-              Your Tasks
-            </h2>
+        <div className={styles.card}>
+          <div className={styles.taskListHeader}>
+            <h2 className={styles.taskListTitle}>Your Tasks</h2>
 
-            <span
-              style={{
-                color: "#6b7280",
-                fontSize: "14px",
-              }}
-            >
+            <span className={styles.taskCount}>
               {tasks.length} task{tasks.length !== 1 ? "s" : ""}
             </span>
           </div>
 
-          {loading && (
-            <p
-              style={{
-                color: "#6b7280",
-              }}
-            >
-              Loading tasks...
-            </p>
-          )}
+          {loading && <p className={styles.loading}>Loading tasks...</p>}
 
-          {error && (
-            <p
-              style={{
-                color: "#dc2626",
-                backgroundColor: "#fee2e2",
-                padding: "12px",
-                borderRadius: "8px",
-              }}
-            >
-              {error}
-            </p>
-          )}
+          {error && <p className={styles.error}>{error}</p>}
 
           {!loading && !error && (
             <TaskList

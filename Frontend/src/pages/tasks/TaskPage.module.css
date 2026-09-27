@@ -1,0 +1,178 @@
+.page {
+  min-height: 100vh;
+  background: #f4f6f8;
+  padding: 30px 20px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Header */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.headerContent h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #111827;
+}
+
+.headerContent p {
+  margin: 8px 0 0;
+  color: #6b7280;
+}
+
+.logoutButton {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  background: #dc2626;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 600;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.logoutButton:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+}
+
+.logoutButton:active {
+  transform: scale(0.98);
+}
+
+/* Shared cards */
+
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.cardTitle {
+  margin-top: 0;
+  color: #111827;
+}
+
+/* Filters */
+
+.filterRow {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+}
+
+.filterSelect {
+  margin-left: 8px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #111827;
+}
+
+.overdueLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.clearButton {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #111827;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.clearButton:hover {
+  background: #f3f4f6;
+}
+
+/* Task list header */
+
+.taskListHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.taskListTitle {
+  margin: 0;
+  color: #111827;
+}
+
+.taskCount {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* States */
+
+.loading {
+  color: #6b7280;
+}
+
+.error {
+  color: #dc2626;
+  background: #fee2e2;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+/* Mobile */
+
+@media (max-width: 640px) {
+  .page {
+    padding: 20px 12px;
+  }
+
+  .headerContent h1 {
+    font-size: 28px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .filterRow {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .filterGroup {
+    justify-content: space-between;
+  }
+
+  .filterSelect {
+    flex: 1;
+    margin-left: 12px;
+  }
+
+  .clearButton {
+    width: 100%;
+  }
+}
