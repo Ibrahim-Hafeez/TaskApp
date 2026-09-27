@@ -1,90 +1,130 @@
-import { useState, useEffect } from "react";
-import styles from '@/components/auth/login.module.css'
+import { useEffect, useState } from "react";
+import styles from "@/components/auth/login.module.css";
 
-function ForgotPasswordForm({ onSubmit, loading, apiError, clearApiError, sent }) {
-    const [email, setEmail] = useState('');
-    const [formError, setFormError] = useState('');
-    const [shake, setShake] = useState(false);
+function ForgotPasswordForm({
+  onSubmit,
+  loading,
+  apiError,
+  clearApiError,
+  sent,
+}) {
+  const [email, setEmail] = useState("");
+  const [formError, setFormError] = useState("");
+  const [shake, setShake] = useState(false);
 
-    const resetForm = () => {
-        setEmail('');
-        setFormError('');
+  const resetForm = () => {
+    setEmail("");
+    setFormError("");
+  };
+
+  const triggerShake = () => {
+    setShake(true);
+
+    setTimeout(() => {
+      setShake(false);
+    }, 400);
+  };
+
+  useEffect(() => {
+    if (apiError) {
+      triggerShake();
+    }
+  }, [apiError]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    setFormError("");
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email.trim()) {
+      setFormError("Email is required");
+      triggerShake();
+      return;
     }
 
-    const triggerShake = () => {
-        setShake(true);
-        setTimeout(() => setShake(false), 400);
+    if (!emailRegex.test(email.trim())) {
+      setFormError("Please enter a valid email address");
+      triggerShake();
+      return;
     }
 
-    useEffect(() => {
-        if (apiError) triggerShake();
-    }, [apiError]);
+    onSubmit({ email: email.trim() }, resetForm);
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className={`${styles.loginForm} ${shake ? styles.shake : ""}`}
+      aria-label="Forgot password form"
+    >
+      <h1>Forgot Password</h1>
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      {sent ? (
+        <div
+          role="status"
+          style={{
+            textAlign: "center",
+            fontSize: "15px",
+            lineHeight: "1.6",
+            color: "#475569",
+          }}
+        >
+          <p>If the email exists, a reset link has been sent.</p>
+        </div>
+      ) : (
+        <>
+          {(formError || apiError) && (
+            <div className={styles.loginNotice} role="alert">
+              {formError || apiError}
+            </div>
+          )}
 
-        if (!email.trim()) {
-            setFormError('Email is required');
-            triggerShake();
-            return;
-        }
+          <div className={styles.inputField}>
+            <div className={styles.field}>
+              <label htmlFor="email" className={styles.label}>
+                Email
+              </label>
 
-        if (!emailRegex.test(email)) {
-            setFormError('Please enter a valid email address');
-            triggerShake();
-            return;
-        }
-        
-        onSubmit({ email }, resetForm);
-    }
+              <input
+                id="email"
+                name="email"
+                type="text"
+                placeholder="example@gmail.com"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
 
-    return (
-        <form onSubmit={handleSubmit} className={`${styles.loginForm} ${shake ? styles.shake : ''}`}>
-            <h1>Forgot Password</h1>
+                  if (formError) {
+                    setFormError("");
+                  }
 
-            {sent ? (
-                <p style={{ textAlign: 'center', fontSize: '15px' }}>
-                    If the email exists, a reset link has been sent.
-                </p>
+                  if (apiError) {
+                    clearApiError();
+                  }
+                }}
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading || !!apiError}
+            className={styles.submitBtn}
+            aria-busy={loading}
+          >
+            {loading ? (
+              <span className={styles.spinner} aria-hidden />
             ) : (
-                <>
-                    {(formError || apiError) && (
-                        <div className={styles.loginNotice} role="alert">
-                            {formError || apiError}
-                        </div>
-                    )}
-
-                    <div className={styles.inputField}>
-                        <div className={styles.field}>
-                            <label htmlFor="email" className={styles.label}>Email</label>
-                            <input
-                                id="email"
-                                type="text"
-                                placeholder="example@gmail.com"
-                                autoComplete="email"
-                                value={email}
-                                onChange={(e) => {
-                                    setEmail(e.target.value);
-                                    formError && setFormError('');
-                                    apiError && clearApiError();
-                                }}
-                            />
-                        </div>
-                    </div>
-
-                    <button
-                        type="submit"
-                        disabled={loading || !!apiError}
-                        className={styles.submitBtn}
-                    >
-                        {loading ? <span className={styles.spinner} aria-hidden /> : 'Send Reset Link'}
-                    </button>
-                </>
+              "Send Reset Link"
             )}
-        </form>
-    )
+          </button>
+        </>
+      )}
+    </form>
+  );
 }
 
 export default ForgotPasswordForm;
