@@ -1,19 +1,25 @@
 import { useEffect, useRef, useState } from "react";
 import TaskForm from "../../components/tasks/TaskForm";
 import TaskList from "../../components/tasks/TaskList";
-import { getMyTasks } from "../../services/taskService";
+import {
+  getMyTasks,
+  getCachedTasks,
+  clearTaskCache,
+} from "../../services/taskService";
 import { logoutUser } from "../../services/logoutService";
 import { checkSession } from "../../services/sessionService";
 import styles from "./TaskPage.module.css";
 
 function TaskPage() {
-  const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const cachedTasks = getCachedTasks();
+
+  const [tasks, setTasks] = useState(cachedTasks || []);
+  const [loading, setLoading] = useState(!cachedTasks);
   const [error, setError] = useState("");
   const [editingTask, setEditingTask] = useState(null);
 
   const formSectionRef = useRef(null);
-  const hasLoadedTasksRef = useRef(false);
+  const hasLoadedTasksRef = useRef(Boolean(cachedTasks));
 
   const [filters, setFilters] = useState({
     completed: "",
@@ -24,6 +30,7 @@ function TaskPage() {
   const handleLogout = async () => {
     try {
       await logoutUser();
+      clearTaskCache();
       window.location.href = "/login";
     } catch (err) {
       alert(err.message || "Logout failed");

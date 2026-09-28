@@ -1,21 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
-import { getMyTasks, updateMyTask } from "../../services/taskService";
-import { logoutUser } from "../../services/logoutService";
+import {
+  getMyTasks,
+  updateMyTask,
+  getCachedTasks,
+} from "../../services/taskService";
 import styles from "./TodayPage.module.css";
 
 function TodayPage() {
-  const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const cachedTasks = getCachedTasks();
 
-  const handleLogout = async () => {
-    try {
-      await logoutUser();
-      window.location.href = "/login";
-    } catch (err) {
-      alert(err.message || "Logout failed");
-    }
-  };
+  const [tasks, setTasks] = useState(cachedTasks || []);
+  const [loading, setLoading] = useState(!cachedTasks);
+  const [error, setError] = useState("");
 
   const handleComplete = async (task) => {
     try {
@@ -41,7 +37,10 @@ function TodayPage() {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        setLoading(true);
+        if (!cachedTasks) {
+          setLoading(true);
+        }
+
         setError("");
 
         const response = await getMyTasks();
@@ -163,12 +162,6 @@ function TodayPage() {
               <p>{formattedDate}</p>
             </div>
           </header>
-
-          {loading && (
-            <div className={styles.messageCard}>
-              <p>Preparing your day...</p>
-            </div>
-          )}
 
           {error && (
             <div className={styles.errorCard}>

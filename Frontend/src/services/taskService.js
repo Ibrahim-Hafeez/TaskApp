@@ -1,5 +1,17 @@
 const API_URL = `${import.meta.env.VITE_API_URL}/tasks`;
 
+let tasksCache = null;
+
+try {
+  const storedTasks = sessionStorage.getItem("taskapp_tasks");
+
+  if (storedTasks) {
+    tasksCache = JSON.parse(storedTasks);
+  }
+} catch {
+  tasksCache = null;
+}
+
 // Create a new task
 export const createTask = async (data) => {
   const response = await fetch(API_URL, {
@@ -13,10 +25,30 @@ export const createTask = async (data) => {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message);
+
+    const error = new Error(errorData.message || "Failed to create task");
+
+    error.status = response.status;
+
+    throw error;
   }
 
-  return response.json();
+  const result = await response.json();
+
+  try {
+    const currentTasks = tasksCache || [];
+    const newTask = result.data;
+
+    if (newTask) {
+      tasksCache = [...currentTasks, newTask];
+
+      sessionStorage.setItem("taskapp_tasks", JSON.stringify(tasksCache));
+    }
+  } catch {
+    // Ignore storage failures
+  }
+
+  return result;
 };
 
 // Get all tasks
@@ -63,7 +95,30 @@ export const getMyTasks = async (filters = {}) => {
     throw error;
   }
 
-  return response.json();
+  const data = await response.json();
+
+  const hasFilters =
+    (filters.completed !== "" && filters.completed !== undefined) ||
+    filters.priority ||
+    filters.dueBefore ||
+    filters.dueAfter ||
+    filters.overdue;
+
+  if (!hasFilters) {
+    tasksCache = data.data || [];
+
+    try {
+      sessionStorage.setItem("taskapp_tasks", JSON.stringify(tasksCache));
+    } catch {
+      // Ignore storage failures
+    }
+  }
+
+  return data;
+};
+
+export const getCachedTasks = () => {
+  return tasksCache;
 };
 
 // Get one task
@@ -102,7 +157,23 @@ export const updateMyTask = async (id, data) => {
     throw error;
   }
 
-  return response.json();
+  const result = await response.json();
+
+  try {
+    const updatedTask = result.data;
+
+    if (updatedTask && tasksCache) {
+      tasksCache = tasksCache.map((task) =>
+        task._id === updatedTask._id ? updatedTask : task,
+      );
+
+      sessionStorage.setItem("taskapp_tasks", JSON.stringify(tasksCache));
+    }
+  } catch {
+    // Ignore storage failures
+  }
+
+  return result;
 };
 
 // Delete a task
@@ -122,5 +193,25 @@ export const deleteMyTask = async (id) => {
     throw error;
   }
 
+  try {
+    if (tasksCache) {
+      tasksCache = tasksCache.filter((task) => task._id !== id);
+
+      sessionStorage.setItem("taskapp_tasks", JSON.stringify(tasksCache));
+    }
+  } catch {
+    // Ignore storage failures
+  }
+
   return true;
+};
+
+export const clearTaskCache = () => {
+  tasksCache = null;
+
+  try {
+    sessionStorage.removeItem("taskapp_tasks");
+  } catch {
+    // Ignore storage failures
+  }
 };

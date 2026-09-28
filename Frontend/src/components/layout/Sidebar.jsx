@@ -1,7 +1,16 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { startTransition } from "react";
 import styles from "./Sidebar.module.css";
 
 function Sidebar({ onLogout }) {
+  const navigate = useNavigate();
+
+  const handleNavigation = (path) => {
+    startTransition(() => {
+      navigate(path);
+    });
+  };
+
   return (
     <aside className={styles.sidebar}>
       <div>
@@ -21,6 +30,10 @@ function Sidebar({ onLogout }) {
 
           <NavLink
             to="/today"
+            onClick={(event) => {
+              event.preventDefault();
+              handleNavigation("/today");
+            }}
             className={({ isActive }) =>
               `${styles.navItem} ${isActive ? styles.active : ""}`
             }
@@ -35,6 +48,10 @@ function Sidebar({ onLogout }) {
 
           <NavLink
             to="/tasks"
+            onClick={(event) => {
+              event.preventDefault();
+              handleNavigation("/tasks");
+            }}
             className={({ isActive }) =>
               `${styles.navItem} ${isActive ? styles.active : ""}`
             }
