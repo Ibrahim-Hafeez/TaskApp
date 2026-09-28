@@ -1,0 +1,23 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.pageTransition {
+  min-height: 100%;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .content {
+    width: 100%;
+  }
+}

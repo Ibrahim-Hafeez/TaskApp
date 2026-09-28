@@ -1,31 +1,80 @@
+import { NavLink } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 
 function Sidebar({ onLogout }) {
   return (
     <aside className={styles.sidebar}>
       <div>
-        {/* Logo */}
         <div className={styles.logo}>
           <div className={styles.logoIcon}>✓</div>
 
           <div>
             <h2>TaskApp</h2>
-            <span>Stay organized</span>
+            <span>Your daily workspace</span>
           </div>
         </div>
 
-        {/* Navigation */}
         <nav className={styles.navigation}>
-          <p className={styles.sectionTitle}>WORKSPACE</p>
+          {/* Overview */}
 
-          <a href="/tasks" className={`${styles.navItem} ${styles.active}`}>
+          <p className={styles.sectionTitle}>OVERVIEW</p>
+
+          <NavLink
+            to="/today"
+            className={({ isActive }) =>
+              `${styles.navItem} ${isActive ? styles.active : ""}`
+            }
+          >
+            <span className={styles.navIcon}>⌂</span>
+            <span>Today</span>
+          </NavLink>
+
+          {/* Work */}
+
+          <p className={styles.sectionTitle}>WORK</p>
+
+          <NavLink
+            to="/tasks"
+            className={({ isActive }) =>
+              `${styles.navItem} ${isActive ? styles.active : ""}`
+            }
+          >
             <span className={styles.navIcon}>▦</span>
             <span>My Tasks</span>
-          </a>
+          </NavLink>
+
+          <div className={styles.navItem}>
+            <span className={styles.navIcon}>▣</span>
+            <span>Projects</span>
+          </div>
+
+          {/* Productivity */}
+
+          <p className={styles.sectionTitle}>PRODUCTIVITY</p>
+
+          <div className={styles.navItem}>
+            <span className={styles.navIcon}>🎯</span>
+            <span>Focus</span>
+          </div>
+
+          <div className={styles.navItem}>
+            <span className={styles.navIcon}>🔥</span>
+            <span>Habits</span>
+          </div>
+
+          {/* Insights */}
+
+          <p className={styles.sectionTitle}>INSIGHTS</p>
+
+          <div className={styles.navItem}>
+            <span className={styles.navIcon}>◈</span>
+            <span>Insights</span>
+          </div>
         </nav>
       </div>
 
-      {/* Bottom section */}
+      {/* Account */}
+
       <div className={styles.bottomSection}>
         <div className={styles.userCard}>
           <div className={styles.avatar}>U</div>

@@ -1,6 +1,8 @@
 .sidebar {
   width: 250px;
+  height: 100vh;
   min-height: 100vh;
+  align-self: flex-start;
   padding: 24px 16px;
   box-sizing: border-box;
 
@@ -23,7 +25,7 @@
   align-items: center;
   gap: 12px;
   padding: 4px 8px;
-  margin-bottom: 40px;
+  margin-bottom: 28px;
 }
 
 .logoIcon {
@@ -70,14 +72,18 @@
 }
 
 .sectionTitle {
-  margin: 0 0 10px;
+  margin: 0 0 8px;
   padding: 0 10px;
 
   color: #64748b;
 
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
+}
+
+.sectionTitle:not(:first-child) {
+  margin-top: 15px;
 }
 
 .navItem {
@@ -88,7 +94,7 @@
   width: 100%;
   box-sizing: border-box;
 
-  padding: 11px 12px;
+  padding: 9px 12px;
 
   border-radius: 10px;
 
@@ -139,7 +145,13 @@
 .bottomSection {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
+  flex-shrink: 0;
+
+  margin-top: 18px;
+  padding-top: 16px;
+
+  border-top: 1px solid #1e293b;
 }
 
 /* User card */
@@ -149,7 +161,7 @@
   align-items: center;
   gap: 10px;
 
-  padding: 12px;
+  padding: 9px 10px;
 
   border: 1px solid #1e293b;
   border-radius: 12px;
@@ -158,8 +170,8 @@
 }
 
 .avatar {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
 
   flex-shrink: 0;
 
@@ -187,7 +199,7 @@
 .userInfo strong {
   color: #f8fafc;
 
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .userInfo span {
@@ -195,7 +207,7 @@
 
   color: #64748b;
 
-  font-size: 10px;
+  font-size: 9px;
 }
 
 /* Logout */
@@ -234,6 +246,21 @@
   color: #ffffff;
 }
 
+.comingSoon {
+  margin-left: auto;
+  padding: 3px 6px;
+
+  border-radius: 5px;
+
+  background: #1e293b;
+  color: #64748b;
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 /* ================================
    Tablet
 ================================ */
@@ -251,24 +278,26 @@
 @media (max-width: 768px) {
   .sidebar {
     width: 100%;
-    min-height: auto;
+    min-height: 0;
+    height: auto;
 
     position: relative;
 
     padding: 14px 16px;
 
-    flex-direction: row;
-    align-items: center;
-    gap: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    box-sizing: border-box;
   }
 
   .sidebar > div:first-child {
-    flex: 1;
-    min-width: 0;
+    width: 100%;
   }
 
   .logo {
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     padding: 0 4px;
   }
 
@@ -284,7 +313,12 @@
   }
 
   .navigation {
-    margin-bottom: 0;
+    width: 100%;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
   }
 
   .sectionTitle {
@@ -292,26 +326,62 @@
   }
 
   .navItem {
-    width: fit-content;
-    padding: 9px 12px;
+    width: auto;
+
+    padding: 8px 10px;
+
+    border-radius: 8px;
+
+    font-size: 12px;
+  }
+
+  .navIcon {
+    width: auto;
+    font-size: 14px;
   }
 
   .bottomSection {
-    flex-shrink: 0;
-    gap: 0;
+    width: 100%;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    gap: 6px;
+
+    margin-top: 0;
+    padding-top: 12px;
+
+    border-top: 1px solid #1e293b;
   }
 
   .userCard {
-    display: none;
+    flex: 1;
+
+    padding: 8px 10px;
+  }
+
+  .avatar {
+    width: 30px;
+    height: 30px;
+  }
+
+  .userInfo strong {
+    font-size: 11px;
+  }
+
+  .userInfo span {
+    font-size: 8px;
   }
 
   .logoutButton {
     width: auto;
-    padding: 9px 12px;
-  }
+    flex-shrink: 0;
 
-  .logoutButton span {
-    font-size: 16px;
+    padding: 8px 10px;
+
+    font-size: 11px;
   }
 }
 

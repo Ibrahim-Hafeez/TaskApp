@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import TaskForm from "../../components/tasks/TaskForm";
 import TaskList from "../../components/tasks/TaskList";
-import Sidebar from "../../components/layout/Sidebar";
 import { getMyTasks } from "../../services/taskService";
 import { logoutUser } from "../../services/logoutService";
 import { checkSession } from "../../services/sessionService";
@@ -127,6 +126,29 @@ function TaskPage() {
     setEditingTask(task);
   };
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const taskId = params.get("edit");
+
+    if (!taskId || tasks.length === 0) {
+      return;
+    }
+
+    const taskToEdit = tasks.find((task) => task._id === taskId);
+
+    if (taskToEdit) {
+      setEditingTask(taskToEdit);
+
+      params.delete("edit");
+
+      const newUrl = `${window.location.pathname}${
+        params.toString() ? `?${params.toString()}` : ""
+      }`;
+
+      window.history.replaceState({}, "", newUrl);
+    }
+  }, [tasks]);
+
   const handleFilterChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -155,8 +177,6 @@ function TaskPage() {
 
   return (
     <div className={styles.dashboard}>
-      <Sidebar onLogout={handleLogout} />
-
       <main className={styles.mainContent}>
         <div className={styles.container}>
           {/* Header */}

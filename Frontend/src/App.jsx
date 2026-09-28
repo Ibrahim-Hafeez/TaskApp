@@ -1,5 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import DashboardLayout from "@/components/layout/DashboardLayout";
 import TaskPage from "@/pages/tasks/TaskPage";
+import TodayPage from "@/pages/today/TodayPage";
 import LoginPage from "@/pages/login/LoginPage";
 import SignupPage from "@/pages/signup/SignupPage";
 import ForgotPasswordPage from "@/pages/login/ForgotPasswordPage";
@@ -9,7 +11,12 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/login" />} />
-      <Route path="/tasks" element={<TaskPage />} />
+
+      <Route element={<DashboardLayout />}>
+        <Route path="/today" element={<TodayPage />} />
+        <Route path="/tasks" element={<TaskPage />} />
+      </Route>
+
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
