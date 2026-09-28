@@ -164,6 +164,80 @@
 }
 
 /* ================================
+   Task Progress
+================================ */
+
+.progressCard {
+  margin-bottom: 22px;
+  padding: 22px 24px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 15px;
+
+  background: rgba(255, 255, 255, 0.95);
+
+  box-shadow:
+    0 2px 6px rgba(15, 23, 42, 0.03),
+    0 8px 20px rgba(15, 23, 42, 0.03);
+}
+
+.progressHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.progressLabel {
+  display: block;
+
+  color: #0f172a;
+
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.progressText {
+  margin: 4px 0 0;
+
+  color: #94a3b8;
+
+  font-size: 12px;
+}
+
+.progressPercentage {
+  flex-shrink: 0;
+
+  color: #4f46e5;
+
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.progressTrack {
+  width: 100%;
+  height: 10px;
+
+  margin-top: 16px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: #e2e8f0;
+}
+
+.progressBar {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+
+  transition: width 0.4s ease;
+}
+
+/* ================================
    Shared Cards
 ================================ */
 
@@ -606,5 +680,35 @@
   .statIcon {
     width: 40px;
     height: 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  .progressCard {
+    padding: 18px;
+    margin-bottom: 18px;
+    border-radius: 13px;
+  }
+
+  .progressHeader {
+    gap: 12px;
+  }
+
+  .progressLabel {
+    font-size: 13px;
+  }
+
+  .progressText {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .progressPercentage {
+    font-size: 18px;
+  }
+
+  .progressTrack {
+    height: 8px;
+    margin-top: 14px;
   }
 }

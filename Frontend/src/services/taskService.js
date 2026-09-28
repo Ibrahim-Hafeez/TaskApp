@@ -94,7 +94,12 @@ export const updateMyTask = async (id, data) => {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message);
+
+    const error = new Error(errorData.message || "Failed to update task");
+
+    error.status = response.status;
+
+    throw error;
   }
 
   return response.json();
@@ -109,7 +114,12 @@ export const deleteMyTask = async (id) => {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message);
+
+    const error = new Error(errorData.message || "Failed to delete task");
+
+    error.status = response.status;
+
+    throw error;
   }
 
   return true;

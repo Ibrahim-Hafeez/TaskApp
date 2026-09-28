@@ -4,6 +4,7 @@ import TaskList from "../../components/tasks/TaskList";
 import Sidebar from "../../components/layout/Sidebar";
 import { getMyTasks } from "../../services/taskService";
 import { logoutUser } from "../../services/logoutService";
+import { checkSession } from "../../services/sessionService";
 import styles from "./TaskPage.module.css";
 
 function TaskPage() {
@@ -13,6 +14,7 @@ function TaskPage() {
   const [editingTask, setEditingTask] = useState(null);
 
   const formSectionRef = useRef(null);
+  const hasLoadedTasksRef = useRef(false);
 
   const [filters, setFilters] = useState({
     completed: "",
@@ -31,12 +33,17 @@ function TaskPage() {
 
   const fetchTasks = async () => {
     try {
-      setLoading(true);
+      if (!hasLoadedTasksRef.current) {
+        setLoading(true);
+      }
+
       setError("");
 
       const response = await getMyTasks(filters);
 
       setTasks(response.data || []);
+
+      hasLoadedTasksRef.current = true;
     } catch (err) {
       if (err.status === 401) {
         window.location.href = "/login";
@@ -55,12 +62,48 @@ function TaskPage() {
 
   useEffect(() => {
     if (editingTask && formSectionRef.current) {
-      formSectionRef.current.scrollIntoView({
+      const element = formSectionRef.current;
+
+      const elementTop = element.getBoundingClientRect().top + window.scrollY;
+
+      window.scrollTo({
+        top: elementTop - 24,
         behavior: "smooth",
-        block: "start",
       });
     }
   }, [editingTask]);
+
+  useEffect(() => {
+    const handleSessionCheck = async () => {
+      try {
+        await checkSession();
+      } catch (err) {
+        if (err.status === 401) {
+          window.location.href = "/login";
+        }
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        handleSessionCheck();
+      }
+    };
+
+    const handleWindowFocus = () => {
+      handleSessionCheck();
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    window.addEventListener("focus", handleWindowFocus);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+
+      window.removeEventListener("focus", handleWindowFocus);
+    };
+  }, []);
 
   const handleTaskCreated = (newTask) => {
     setTasks((prevTasks) => [newTask, ...prevTasks]);
@@ -170,6 +213,30 @@ function TaskPage() {
 
                 <strong className={styles.statValue}>{completionRate}%</strong>
               </div>
+            </div>
+          </div>
+
+          <div className={styles.progressCard}>
+            <div className={styles.progressHeader}>
+              <div>
+                <span className={styles.progressLabel}>Task Progress</span>
+
+                <p className={styles.progressText}>
+                  {completedTasks} of {totalTasks} task
+                  {totalTasks !== 1 ? "s" : ""} completed
+                </p>
+              </div>
+
+              <strong className={styles.progressPercentage}>
+                {completionRate}%
+              </strong>
+            </div>
+
+            <div className={styles.progressTrack}>
+              <div
+                className={styles.progressBar}
+                style={{ width: `${completionRate}%` }}
+              />
             </div>
           </div>
 

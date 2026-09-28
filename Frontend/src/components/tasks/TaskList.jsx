@@ -22,6 +22,11 @@ const TaskList = ({ tasks, onTaskUpdated, onTaskDeleted, onEditTask }) => {
 
       onTaskUpdated(response.data);
     } catch (err) {
+      if (err.status === 401) {
+        window.location.href = "/login";
+        return;
+      }
+
       alert(err.message || "Failed to update task");
     }
   };
@@ -40,6 +45,11 @@ const TaskList = ({ tasks, onTaskUpdated, onTaskDeleted, onEditTask }) => {
 
       onTaskDeleted(task._id);
     } catch (err) {
+      if (err.status === 401) {
+        window.location.href = "/login";
+        return;
+      }
+
       alert(err.message || "Failed to delete task");
     }
   };
