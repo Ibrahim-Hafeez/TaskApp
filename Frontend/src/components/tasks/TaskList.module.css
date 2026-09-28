@@ -309,3 +309,125 @@
     min-width: 90px;
   }
 }
+
+/* ================================
+   Responsive Task Cards
+================================ */
+
+@media (max-width: 768px) {
+  .taskCard {
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  .topSection {
+    gap: 12px;
+  }
+
+  .taskTitle {
+    font-size: 18px;
+  }
+
+  .description {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .taskInfo {
+    margin-top: 16px;
+    gap: 7px;
+  }
+
+  .priority,
+  .dueDate {
+    font-size: 11px;
+    padding: 6px 9px;
+  }
+
+  .actions {
+    margin-top: 16px;
+    padding-top: 14px;
+    gap: 8px;
+  }
+
+  .actionButton {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+}
+
+/* ================================
+   Small Phones
+================================ */
+
+@media (max-width: 480px) {
+  .taskCard {
+    padding: 15px;
+    border-radius: 13px;
+  }
+
+  .topSection {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .status {
+    align-self: flex-start;
+  }
+
+  .taskTitle {
+    font-size: 17px;
+    line-height: 1.35;
+  }
+
+  .description {
+    margin-top: 6px;
+    font-size: 12px;
+  }
+
+  .taskInfo {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .priority,
+  .dueDate {
+    width: fit-content;
+    box-sizing: border-box;
+  }
+
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .actionButton {
+    width: 100%;
+  }
+
+  .completeButton,
+  .pendingButton {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ================================
+   Very Small Phones
+================================ */
+
+@media (max-width: 360px) {
+  .taskCard {
+    padding: 13px;
+  }
+
+  .taskTitle {
+    font-size: 16px;
+  }
+
+  .actionButton {
+    padding: 9px 8px;
+    font-size: 11px;
+  }
+}

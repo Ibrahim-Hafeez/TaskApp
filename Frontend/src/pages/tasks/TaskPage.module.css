@@ -1,711 +1,468 @@
-.appShell {
+/* ================================
+   Dashboard Layout
+================================ */
+
+.dashboard {
   min-height: 100vh;
   display: flex;
-  background: #f5f7fb;
-  color: #0f172a;
+  background: #f1f5f9;
 }
 
-/* =========================
-   SIDEBAR
-========================= */
-
-.sidebar {
-  width: 250px;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  padding: 28px 18px;
-  box-sizing: border-box;
-  background:
-    radial-gradient(
-      circle at top left,
-      rgba(99, 102, 241, 0.2),
-      transparent 35%
-    ),
-    #0f172a;
-  color: #ffffff;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 4px 10px 32px;
-}
-
-.brandIcon {
-  width: 38px;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 11px;
-  background: linear-gradient(135deg, #818cf8, #6366f1);
-  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
-  font-size: 18px;
-  font-weight: 800;
-}
-
-.brandName {
-  font-size: 17px;
-  font-weight: 750;
-  letter-spacing: -0.02em;
-}
-
-.brandSubtitle {
-  margin-top: 2px;
-  color: #94a3b8;
-  font-size: 11px;
-}
-
-.navigation {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.navigationLabel {
-  padding: 0 12px;
-  margin-bottom: 5px;
-  color: #64748b;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-}
-
-.navItem {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-height: 44px;
-  padding: 0 13px;
-  border-radius: 10px;
-  color: #94a3b8;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.navItemActive {
-  background: rgba(99, 102, 241, 0.16);
-  color: #ffffff;
-  box-shadow: inset 3px 0 0 #818cf8;
-}
-
-.navIcon {
-  width: 20px;
-  text-align: center;
-  font-size: 15px;
-}
-
-.sidebarBottom {
-  margin-top: auto;
-}
-
-.sidebarDivider {
-  height: 1px;
-  margin: 0 8px 16px;
-  background: rgba(148, 163, 184, 0.12);
-}
-
-.sidebarLogout {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-height: 44px;
-  padding: 0 13px;
-  border: none;
-  border-radius: 10px;
-  background: transparent;
-  color: #94a3b8;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: left;
-  transition:
-    background 0.2s ease,
-    color 0.2s ease;
-}
-
-.sidebarLogout:hover {
-  background: rgba(239, 68, 68, 0.1);
-  color: #fca5a5;
-}
-
-/* =========================
-   WORKSPACE
-========================= */
-
-.workspace {
+.mainContent {
   flex: 1;
   min-width: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(99, 102, 241, 0.06),
+      transparent 30%
+    ),
+    #f8fafc;
 }
 
-.workspaceInner {
-  width: min(1180px, calc(100% - 64px));
+.container {
+  width: 100%;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 42px 0 60px;
+  padding: 38px 34px 60px;
+  box-sizing: border-box;
 }
 
-/* =========================
-   HEADER
-========================= */
+/* ================================
+   Header
+================================ */
 
-.pageHeader {
+.header {
+  margin-bottom: 28px;
+}
+
+.headerContent {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 25px;
-  margin-bottom: 30px;
+  flex-direction: column;
 }
 
-.eyebrow,
-.sectionEyebrow {
-  margin-bottom: 7px;
+.eyebrow {
+  margin-bottom: 8px;
   color: #6366f1;
   font-size: 11px;
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
 }
 
-.pageHeader h1 {
+.headerContent h1 {
   margin: 0;
   color: #0f172a;
-  font-size: clamp(30px, 4vw, 40px);
+  font-size: 34px;
+  line-height: 1.2;
   font-weight: 800;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
 }
 
-.pageHeader p {
+.headerContent p {
   margin: 8px 0 0;
   color: #64748b;
   font-size: 15px;
 }
 
-.headerActions {
-  display: flex;
-  align-items: center;
-}
+/* ================================
+   Shared Cards
+================================ */
 
-.profile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 7px 11px 7px 7px;
+.card {
+  margin-bottom: 22px;
+  padding: 25px;
+
   border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  background: #ffffff;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
-}
-
-.profileAvatar {
-  width: 34px;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9px;
-  background: #eef2ff;
-  color: #4f46e5;
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.profileInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.profileName {
-  color: #1e293b;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.profileRole {
-  color: #94a3b8;
-  font-size: 10px;
-}
-
-/* =========================
-   STATISTICS
-========================= */
-
-.statsGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-  margin-bottom: 24px;
-}
-
-.statCard {
-  position: relative;
-  overflow: hidden;
-  min-height: 125px;
-  padding: 20px;
-  border: 1px solid #e5e7eb;
-  border-radius: 15px;
-  background: #ffffff;
-  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
-}
-
-.statCard::after {
-  content: "";
-  position: absolute;
-  width: 80px;
-  height: 80px;
-  right: -30px;
-  bottom: -35px;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0.04;
-}
-
-.statTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.statLabel {
-  color: #64748b;
-  font-size: 12px;
-  font-weight: 650;
-}
-
-.statIcon {
-  width: 29px;
-  height: 29px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  background: #f1f5f9;
-  color: currentColor;
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.statValue {
-  margin-top: 13px;
-  color: #0f172a;
-  font-size: 27px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-}
-
-.statDescription {
-  margin-top: 3px;
-  color: #94a3b8;
-  font-size: 11px;
-}
-
-.totalStat {
-  color: #6366f1;
-}
-
-.pendingStat {
-  color: #f59e0b;
-}
-
-.completedStat {
-  color: #16a34a;
-}
-
-.overdueStat {
-  color: #ef4444;
-}
-
-/* =========================
-   MAIN CARDS
-========================= */
-
-.mainCard,
-.filterCard,
-.taskSection {
-  border: 1px solid #e5e7eb;
   border-radius: 16px;
-  background: #ffffff;
-  box-shadow: 0 5px 20px rgba(15, 23, 42, 0.04);
+
+  background: rgba(255, 255, 255, 0.92);
+
+  box-shadow:
+    0 2px 6px rgba(15, 23, 42, 0.03),
+    0 8px 24px rgba(15, 23, 42, 0.04);
+
+  backdrop-filter: blur(8px);
 }
 
-.mainCard {
-  margin-bottom: 20px;
-}
-
-.sectionHeader,
-.taskSectionHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 24px 26px;
-  border-bottom: 1px solid #eef2f7;
-}
-
-.sectionHeader h2,
-.taskSectionHeader h2 {
-  margin: 0;
-  color: #111827;
-  font-size: 19px;
-  font-weight: 750;
-  letter-spacing: -0.02em;
-}
-
-.sectionHeader p,
-.taskSectionHeader p {
-  margin: 5px 0 0;
-  color: #94a3b8;
-  font-size: 13px;
-}
-
-.sectionBadge {
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: #eef2ff;
-  color: #4f46e5;
-  font-size: 11px;
+.cardTitle {
+  margin: 0 0 20px;
+  color: #0f172a;
+  font-size: 17px;
   font-weight: 700;
 }
 
-.formArea {
-  padding: 24px 26px 26px;
-}
+/* ================================
+   Filters
+================================ */
 
-/* =========================
-   FILTERS
-========================= */
-
-.filterCard {
-  margin-bottom: 20px;
-  padding: 22px 26px;
-}
-
-.filterHeader {
+.filterRow {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 20px;
-  margin-bottom: 18px;
-}
-
-.filterHeader h2 {
-  margin: 0;
-  color: #111827;
-  font-size: 16px;
-  font-weight: 750;
-}
-
-.filterHeader p {
-  margin: 4px 0 0;
-  color: #94a3b8;
-  font-size: 12px;
-}
-
-.clearButton {
-  border: none;
-  background: transparent;
-  color: #6366f1;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.clearButton:hover {
-  color: #4338ca;
-}
-
-.filterControls {
-  display: flex;
-  align-items: flex-end;
   gap: 14px;
   flex-wrap: wrap;
 }
 
-.filterControl {
-  min-width: 170px;
+.filterGroup {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  align-items: center;
+  gap: 8px;
 }
 
-.filterControl label {
+.filterGroup label {
   color: #475569;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 13px;
 }
 
-.filterControl select {
-  min-height: 39px;
-  padding: 0 12px;
+.filterSelect {
+  min-width: 125px;
+  padding: 9px 12px;
+
   border: 1px solid #dbe2ea;
   border-radius: 9px;
-  outline: none;
+
   background: #ffffff;
-  color: #1e293b;
-  font-family: inherit;
+  color: #334155;
+
   font-size: 13px;
+
+  outline: none;
   cursor: pointer;
+
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
 }
 
-.filterControl select:focus {
-  border-color: #818cf8;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+.filterSelect:hover {
+  border-color: #cbd5e1;
 }
 
-.overdueToggle {
-  position: relative;
-  min-height: 39px;
+.filterSelect:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.overdueLabel {
   display: flex;
   align-items: center;
-  gap: 9px;
-  padding: 0 12px;
-  border: 1px solid #dbe2ea;
-  border-radius: 9px;
+  gap: 7px;
+
   color: #475569;
-  font-size: 12px;
-  font-weight: 650;
+
+  font-size: 13px;
+
   cursor: pointer;
 }
 
-.overdueToggle input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
+.overdueLabel input {
+  width: 15px;
+  height: 15px;
+  accent-color: #6366f1;
+  cursor: pointer;
 }
 
-.customCheckbox {
-  width: 17px;
-  height: 17px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #cbd5e1;
-  border-radius: 5px;
+.clearButton {
+  margin-left: auto;
+
+  padding: 9px 14px;
+
+  border: 1px solid #dbe2ea;
+  border-radius: 9px;
+
   background: #ffffff;
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 800;
+  color: #475569;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
 }
 
-.overdueToggle input:checked + .customCheckbox {
-  border-color: #6366f1;
-  background: #6366f1;
+.clearButton:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
 }
 
-/* =========================
-   TASK SECTION
-========================= */
-
-.taskSection {
-  padding-bottom: 8px;
+.clearButton:active {
+  transform: scale(0.98);
 }
 
-.taskSectionHeader {
-  align-items: center;
+/* ================================
+   Task List Header
+================================ */
+
+.taskListHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.taskListTitle {
+  margin: 0;
+  color: #0f172a;
+  font-size: 19px;
+  font-weight: 750;
+}
+
+.taskListSubtitle {
+  margin: 5px 0 0;
+  color: #94a3b8;
+  font-size: 13px;
 }
 
 .taskCount {
-  min-width: 42px;
-  height: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 11px;
-  background: #f1f5f9;
-  color: #475569;
-  font-size: 14px;
-  font-weight: 800;
+  flex-shrink: 0;
+
+  padding: 7px 11px;
+
+  border-radius: 999px;
+
+  background: #eef2ff;
+  color: #4f46e5;
+
+  font-size: 12px;
+  font-weight: 700;
 }
 
-/* TaskList lives inside this area */
+/* ================================
+   Loading / Error
+================================ */
 
-.taskSection > div:last-child {
-  padding: 20px 20px 4px;
-}
+.loading {
+  margin: 0;
+  padding: 30px 0;
 
-/* =========================
-   STATES
-========================= */
-
-.loadingState {
-  min-height: 180px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
   color: #64748b;
-  font-size: 13px;
+
+  text-align: center;
+  font-size: 14px;
 }
 
-.loadingSpinner {
-  width: 28px;
-  height: 28px;
-  border: 3px solid #e2e8f0;
-  border-top-color: #6366f1;
-  border-radius: 50%;
-  animation: spin 0.75s linear infinite;
-}
-
-.errorState {
-  margin: 20px;
+.error {
+  margin: 0;
   padding: 13px 15px;
+
   border: 1px solid #fecaca;
   border-radius: 10px;
-  background: #fef2f2;
-  color: #b91c1c;
-  font-size: 13px;
+
+  background: #fff1f2;
+  color: #be123c;
+
+  font-size: 14px;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
+/* ================================
+   Large Tablet
+================================ */
 
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media (max-width: 1000px) {
-  .sidebar {
-    width: 220px;
+@media (max-width: 1100px) {
+  .container {
+    padding: 32px 26px 50px;
   }
 
-  .workspaceInner {
-    width: min(100% - 40px, 900px);
-  }
-
-  .statsGrid {
-    grid-template-columns: repeat(2, 1fr);
+  .card {
+    padding: 22px;
   }
 }
 
-@media (max-width: 720px) {
-  .appShell {
+/* ================================
+   Tablet
+================================ */
+
+@media (max-width: 900px) {
+  .container {
+    padding: 28px 22px 45px;
+  }
+
+  .headerContent h1 {
+    font-size: 30px;
+  }
+
+  .filterRow {
+    align-items: stretch;
+  }
+
+  .filterGroup {
+    flex: 1;
+    min-width: 190px;
+  }
+
+  .filterSelect {
+    flex: 1;
+  }
+
+  .clearButton {
+    margin-left: 0;
+  }
+}
+
+/* ================================
+   Small Tablet / Large Phone
+================================ */
+
+@media (max-width: 768px) {
+  .dashboard {
     display: block;
   }
 
-  .sidebar {
-    width: 100%;
+  .mainContent {
     min-height: auto;
-    padding: 14px 16px;
   }
 
-  .brand {
-    padding: 0 4px 14px;
+  .container {
+    padding: 26px 18px 40px;
   }
 
-  .navigation {
-    display: none;
-  }
-
-  .sidebarBottom {
-    position: absolute;
-    top: 14px;
-    right: 16px;
-    margin: 0;
-  }
-
-  .sidebarDivider {
-    display: none;
-  }
-
-  .sidebarLogout {
-    width: auto;
-    padding: 9px 11px;
-    background: rgba(239, 68, 68, 0.08);
-    color: #fca5a5;
-  }
-
-  .sidebarLogout span:last-child {
-    display: none;
-  }
-
-  .workspaceInner {
-    width: calc(100% - 24px);
-    padding: 25px 0 40px;
-  }
-
-  .pageHeader {
-    align-items: flex-start;
-    flex-direction: column;
+  .header {
     margin-bottom: 22px;
   }
 
-  .headerActions {
-    width: 100%;
+  .headerContent h1 {
+    font-size: 28px;
   }
 
-  .profile {
-    width: 100%;
-    box-sizing: border-box;
+  .headerContent p {
+    font-size: 14px;
   }
 
-  .statsGrid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-
-  .statCard {
-    min-height: 105px;
-    padding: 15px;
-  }
-
-  .sectionHeader,
-  .taskSectionHeader {
-    padding: 19px;
-  }
-
-  .formArea {
+  .card {
+    margin-bottom: 18px;
     padding: 20px;
+    border-radius: 14px;
   }
 
-  .filterCard {
-    padding: 19px;
+  .filterRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .filterGroup {
+    width: 100%;
+    min-width: 0;
+    justify-content: space-between;
+  }
+
+  .filterSelect {
+    flex: 1;
+    max-width: 220px;
+  }
+
+  .overdueLabel {
+    padding: 4px 0;
+  }
+
+  .clearButton {
+    width: 100%;
   }
 }
 
-@media (max-width: 480px) {
-  .pageHeader h1 {
-    font-size: 29px;
+/* ================================
+   Mobile
+================================ */
+
+@media (max-width: 640px) {
+  .container {
+    padding: 22px 12px 32px;
   }
 
-  .statsGrid {
-    grid-template-columns: 1fr 1fr;
+  .header {
+    margin-bottom: 18px;
   }
 
-  .statValue {
-    font-size: 23px;
-  }
-
-  .statDescription {
+  .eyebrow {
     font-size: 10px;
   }
 
-  .filterControls {
-    align-items: stretch;
+  .headerContent h1 {
+    font-size: 25px;
+  }
+
+  .headerContent p {
+    margin-top: 6px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .card {
+    padding: 16px;
+    margin-bottom: 14px;
+    border-radius: 13px;
+  }
+
+  .cardTitle {
+    margin-bottom: 17px;
+    font-size: 16px;
+  }
+
+  .filterGroup {
+    align-items: center;
+    gap: 10px;
+  }
+
+  .filterGroup label {
+    flex-shrink: 0;
+  }
+
+  .filterSelect {
+    min-width: 0;
+    max-width: none;
+    padding: 10px;
+  }
+
+  .taskListHeader {
     flex-direction: column;
+    gap: 10px;
+    margin-bottom: 18px;
   }
 
-  .filterControl {
+  .taskListTitle {
+    font-size: 18px;
+  }
+
+  .taskListSubtitle {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .taskCount {
+    align-self: flex-start;
+  }
+}
+
+/* ================================
+   Very Small Phones
+================================ */
+
+@media (max-width: 400px) {
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .card {
+    padding: 14px;
+  }
+
+  .headerContent h1 {
+    font-size: 23px;
+  }
+
+  .filterGroup {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filterSelect {
     width: 100%;
-  }
-
-  .overdueToggle {
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .taskSection > div:last-child {
-    padding: 14px 14px 2px;
   }
 }
