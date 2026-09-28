@@ -101,6 +101,12 @@ function TaskPage() {
     });
   };
 
+  const totalTasks = tasks.length;
+
+  const completedTasks = tasks.filter((task) => task.completed).length;
+
+  const pendingTasks = tasks.filter((task) => !task.completed).length;
+
   return (
     <div className={styles.dashboard}>
       <Sidebar onLogout={handleLogout} />
@@ -115,6 +121,40 @@ function TaskPage() {
               <h1>My Tasks</h1>
 
               <p>Manage your tasks and stay organized.</p>
+            </div>
+          </div>
+
+          {/* Statistics */}
+          <div className={styles.statsGrid}>
+            <div className={styles.statCard}>
+              <div className={styles.statIcon}>▦</div>
+
+              <div>
+                <span className={styles.statLabel}>Total Tasks</span>
+                <strong className={styles.statValue}>{totalTasks}</strong>
+              </div>
+            </div>
+
+            <div className={styles.statCard}>
+              <div className={`${styles.statIcon} ${styles.pendingIcon}`}>
+                ◷
+              </div>
+
+              <div>
+                <span className={styles.statLabel}>Pending</span>
+                <strong className={styles.statValue}>{pendingTasks}</strong>
+              </div>
+            </div>
+
+            <div className={styles.statCard}>
+              <div className={`${styles.statIcon} ${styles.completedIcon}`}>
+                ✓
+              </div>
+
+              <div>
+                <span className={styles.statLabel}>Completed</span>
+                <strong className={styles.statValue}>{completedTasks}</strong>
+              </div>
             </div>
           </div>
 
