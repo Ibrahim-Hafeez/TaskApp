@@ -107,6 +107,9 @@ function TaskPage() {
 
   const pendingTasks = tasks.filter((task) => !task.completed).length;
 
+  const completionRate =
+    totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
+
   return (
     <div className={styles.dashboard}>
       <Sidebar onLogout={handleLogout} />
@@ -154,6 +157,18 @@ function TaskPage() {
               <div>
                 <span className={styles.statLabel}>Completed</span>
                 <strong className={styles.statValue}>{completedTasks}</strong>
+              </div>
+            </div>
+
+            <div className={styles.statCard}>
+              <div className={`${styles.statIcon} ${styles.progressIcon}`}>
+                %
+              </div>
+
+              <div>
+                <span className={styles.statLabel}>Completion Rate</span>
+
+                <strong className={styles.statValue}>{completionRate}%</strong>
               </div>
             </div>
           </div>
