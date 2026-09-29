@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
 import { createTask, updateMyTask } from "../../services/taskService";
 import styles from "./TaskForm.module.css";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 const emptyForm = {
   title: "",
@@ -37,6 +40,29 @@ function TaskForm({ onTaskCreated, editingTask, onTaskUpdated, onCancelEdit }) {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  };
+
+  // Convert the text string YYYY-MM-DD from state into a real JS Date object for the component
+  const getSelectedDate = () => {
+    if (!formData.dueDate) return null;
+    const [year, month, day] = formData.dueDate.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  };
+
+  // Convert the selected JS Date object back into a clean YYYY-MM-DD string for your API
+  const handleDateChange = (date) => {
+    if (!date) {
+      setFormData((prev) => ({ ...prev, dueDate: "" }));
+      return;
+    }
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    setFormData((prev) => ({
+      ...prev,
+      dueDate: `${year}-${month}-${day}`,
     }));
   };
 
@@ -87,15 +113,25 @@ function TaskForm({ onTaskCreated, editingTask, onTaskUpdated, onCancelEdit }) {
           Task Title
         </label>
 
-        <input
-          id="title"
-          name="title"
-          type="text"
-          value={formData.title}
-          onChange={handleChange}
-          placeholder="Enter task title"
-          className={styles.input}
-        />
+        <div className={styles.inputWrapper}>
+          <input
+            id="title"
+            name="title"
+            type="text"
+            value={formData.title}
+            onChange={handleChange}
+            placeholder="e.g. Buy Groceries"
+            maxLength={100}
+            autoComplete="off"
+            className={styles.input}
+          />
+
+          <span className={styles.characterCount}>
+            {formData.title.length}/100
+          </span>
+        </div>
+
+        <p className={styles.fieldHint}>Keep it short and action-focused.</p>
       </div>
 
       {/* Description */}
@@ -104,52 +140,185 @@ function TaskForm({ onTaskCreated, editingTask, onTaskUpdated, onCancelEdit }) {
           Description
         </label>
 
-        <textarea
-          id="description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          placeholder="Enter task description"
-          rows="4"
-          className={styles.textarea}
-        />
+        <div className={styles.descriptionEditor}>
+          <div className={styles.descriptionHeader}>
+            <span className={styles.descriptionIcon}>✦</span>
+
+            <span className={styles.descriptionTitle}>
+              {formData.description.trim() ? "Task notes added" : "Task notes"}
+            </span>
+
+            <span className={styles.descriptionOptional}>Optional</span>
+          </div>
+
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            placeholder="What needs to be done? Add useful details, links, or notes..."
+            rows="4"
+            maxLength={500}
+            className={styles.textarea}
+          />
+
+          <div className={styles.descriptionFooter}>
+            <span>Add anything that will help you complete this task.</span>
+
+            <span>{formData.description.length}/500</span>
+          </div>
+        </div>
       </div>
 
       {/* Priority and Due Date */}
       <div className={styles.detailsRow}>
         {/* Priority */}
         <div className={styles.field}>
-          <label htmlFor="priority" className={styles.label}>
-            Priority
-          </label>
+          <span className={styles.label}>Priority</span>
 
-          <select
-            id="priority"
-            name="priority"
-            value={formData.priority}
-            onChange={handleChange}
-            className={styles.select}
-          >
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-          </select>
+          <div className={styles.priorityOptions}>
+            <button
+              type="button"
+              className={`${styles.priorityOption} ${
+                formData.priority === "low" ? styles.priorityLowActive : ""
+              }`}
+              onClick={() =>
+                setFormData((prev) => ({
+                  ...prev,
+                  priority: "low",
+                }))
+              }
+            >
+              <span className={styles.priorityDot} />
+              <span>
+                <strong>Low</strong>
+                <small>Light workload</small>
+              </span>
+            </button>
+
+            <button
+              type="button"
+              className={`${styles.priorityOption} ${
+                formData.priority === "medium"
+                  ? styles.priorityMediumActive
+                  : ""
+              }`}
+              onClick={() =>
+                setFormData((prev) => ({
+                  ...prev,
+                  priority: "medium",
+                }))
+              }
+            >
+              <span className={styles.priorityDot} />
+              <span>
+                <strong>Medium</strong>
+                <small>Normal priority</small>
+              </span>
+            </button>
+
+            <button
+              type="button"
+              className={`${styles.priorityOption} ${
+                formData.priority === "high" ? styles.priorityHighActive : ""
+              }`}
+              onClick={() =>
+                setFormData((prev) => ({
+                  ...prev,
+                  priority: "high",
+                }))
+              }
+            >
+              <span className={styles.priorityDot} />
+              <span>
+                <strong>High</strong>
+                <small>Needs attention</small>
+              </span>
+            </button>
+          </div>
         </div>
 
-        {/* Due Date */}
+        {/* Due Date (Custom Safe React-DatePicker Integration) */}
         <div className={styles.field}>
           <label htmlFor="dueDate" className={styles.label}>
             Due Date
           </label>
 
-          <input
+          <DatePicker
             id="dueDate"
-            name="dueDate"
-            type="date"
-            value={formData.dueDate}
-            onChange={handleChange}
-            className={styles.input}
+            selected={getSelectedDate()}
+            onChange={handleDateChange}
+            minDate={new Date()} // Blocks past dates completely
+            placeholderText="Select due date..."
+            dateFormat="MMMM d, yyyy" // Looks gorgeous: e.g. "October 24, 2026"
+            className={styles.input} // Inherits your gorgeous custom text box styling
+            wrapperClassName={styles.datePickerWrapper}
+            isClearable={false}
           />
+
+          <div className={styles.quickDates}>
+            <button
+              type="button"
+              onClick={() => {
+                const date = new Date();
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, "0");
+                const day = String(date.getDate()).padStart(2, "0");
+                setFormData((prev) => ({
+                  ...prev,
+                  dueDate: `${year}-${month}-${day}`,
+                }));
+              }}
+            >
+              Today
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                const date = new Date();
+                date.setDate(date.getDate() + 1);
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, "0");
+                const day = String(date.getDate()).padStart(2, "0");
+                setFormData((prev) => ({
+                  ...prev,
+                  dueDate: `${year}-${month}-${day}`,
+                }));
+              }}
+            >
+              Tomorrow
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                const date = new Date();
+                date.setDate(date.getDate() + 7);
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, "0");
+                const day = String(date.getDate()).padStart(2, "0");
+                setFormData((prev) => ({
+                  ...prev,
+                  dueDate: `${year}-${month}-${day}`,
+                }));
+              }}
+            >
+              Next 7 days
+            </button>
+
+            <button
+              type="button"
+              onClick={() =>
+                setFormData((prev) => ({
+                  ...prev,
+                  dueDate: "",
+                }))
+              }
+            >
+              Clear
+            </button>
+          </div>
         </div>
       </div>
 
@@ -169,8 +338,8 @@ function TaskForm({ onTaskCreated, editingTask, onTaskUpdated, onCancelEdit }) {
         >
           {loading
             ? editingTask
-              ? "Updating..."
-              : "Adding..."
+              ? "Updating task..."
+              : "Adding task..."
             : editingTask
               ? "Update Task"
               : "Add Task"}

@@ -257,6 +257,16 @@
   backdrop-filter: blur(8px);
 }
 
+.filterCard {
+  position: relative;
+  z-index: 20;
+}
+
+.taskFormCard {
+  position: relative;
+  z-index: 2;
+}
+
 .cardTitle {
   margin: 0 0 20px;
   color: #0f172a;
@@ -288,50 +298,114 @@
 
 .filterSelect {
   min-width: 125px;
-  padding: 9px 12px;
+  height: 40px;
+  padding: 0 36px 0 13px;
 
   border: 1px solid #dbe2ea;
-  border-radius: 9px;
+  border-radius: 10px;
 
-  background: #ffffff;
+  background-color: #ffffff;
   color: #334155;
 
   font-size: 13px;
+  font-weight: 500;
 
   outline: none;
   cursor: pointer;
 
+  appearance: none;
+
+  background-image:
+    linear-gradient(45deg, transparent 50%, #64748b 50%),
+    linear-gradient(135deg, #64748b 50%, transparent 50%);
+  background-position:
+    calc(100% - 17px) 17px,
+    calc(100% - 12px) 17px;
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+
   transition:
     border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .filterSelect:hover {
   border-color: #cbd5e1;
+  background-color: #f8fafc;
 }
 
 .filterSelect:focus {
   border-color: #6366f1;
+  background-color: #ffffff;
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
 }
 
-.overdueLabel {
-  display: flex;
+.overdueToggle {
+  display: inline-flex;
   align-items: center;
-  gap: 7px;
-
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 13px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #ffffff;
   color: #475569;
-
   font-size: 13px;
-
+  font-weight: 600;
   cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
 }
 
-.overdueLabel input {
-  width: 15px;
-  height: 15px;
-  accent-color: #6366f1;
-  cursor: pointer;
+.overdueToggle:hover {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+}
+
+.overdueToggle:active {
+  transform: translateY(1px);
+}
+
+.overdueToggle:focus-visible {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.overdueIndicator {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.overdueToggleActive {
+  border-color: #fecaca;
+  background: #fff7f7;
+  color: #dc2626;
+}
+
+.overdueToggleActive .overdueIndicator {
+  border-color: #dc2626;
+  background: #dc2626;
 }
 
 .clearButton {
@@ -710,5 +784,25 @@
   .progressTrack {
     height: 8px;
     margin-top: 14px;
+  }
+}
+
+@media (max-width: 390px) {
+  .filterRow {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 9px;
+  }
+
+  .overdueToggle {
+    width: 100%;
+    min-height: 38px;
+    justify-content: flex-start;
+  }
+
+  .clearButton {
+    width: 100%;
+    min-height: 38px;
   }
 }

@@ -33,8 +33,136 @@
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease,
-    background-color 0.2s ease,
-    transform 0.2s ease;
+    background 0.2s ease;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.inputWrapper .input {
+  padding-right: 58px;
+}
+
+.characterCount {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 600;
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+.inputWrapper:focus-within .characterCount {
+  color: #6366f1;
+}
+
+.fieldHint {
+  margin: 6px 0 20px 5px;
+  color: #94a3b8;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.descriptionEditor {
+  overflow: hidden;
+  border: 1px solid #dbe2ea;
+  border-radius: 12px;
+  background: #ffffff;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.descriptionEditor:focus-within {
+  border-color: #6366f1;
+  box-shadow:
+    0 0 0 4px rgba(99, 102, 241, 0.1),
+    0 6px 18px rgba(15, 23, 42, 0.05);
+}
+
+.descriptionHeader {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 0 13px;
+  border-bottom: 1px solid #eef2f7;
+  background: #f8fafc;
+}
+
+.descriptionIcon {
+  color: #6366f1;
+  font-size: 13px;
+}
+
+.descriptionTitle {
+  color: #475569;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.descriptionOptional {
+  margin-left: auto;
+  color: #94a3b8;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.descriptionEditor .textarea {
+  width: 100%;
+  min-height: 125px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.descriptionEditor .textarea:focus {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.descriptionFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 13px;
+  border-top: 1px solid #eef2f7;
+  background: #fafbff;
+  color: #94a3b8;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.descriptionFooter span:last-child {
+  flex: 0 0 auto;
+  font-weight: 600;
+  color: #a1aabd;
+}
+
+.descriptionMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0px 0 20px 5px;
+  color: #94a3b8;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.descriptionMeta span:last-child {
+  flex: 0 0 auto;
+  font-weight: 600;
+  color: #a1aabd;
 }
 
 .input,
@@ -43,11 +171,19 @@
 }
 
 .textarea {
-  padding: 12px 14px;
-  min-height: 110px;
-  resize: vertical;
+  padding: 14px 15px;
+  min-height: 150px;
+  resize: none;
   font-family: inherit;
-  line-height: 1.6;
+  font-size: 14px;
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #ffffff 0%, #fafbff 100%);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
 .input::placeholder,
@@ -68,7 +204,9 @@
 .select:focus {
   border-color: #6366f1;
   background: #ffffff;
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+  box-shadow:
+    0 0 0 4px rgba(99, 102, 241, 0.1),
+    0 6px 18px rgba(15, 23, 42, 0.05);
 }
 
 .select {
@@ -82,6 +220,134 @@
   grid-template-columns: 1fr 1fr;
   gap: 18px;
   margin-bottom: 22px;
+}
+
+.quickDates {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.quickDates button {
+  border: 1px solid #e2e8f0;
+  border-radius: 7px;
+  background: #f8fafc;
+  color: #64748b;
+  padding: 5px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.quickDates button:hover {
+  border-color: #c7d2fe;
+  background: #eef2ff;
+  color: #4f46e5;
+}
+
+.quickDates button:active {
+  background: #e0e7ff;
+}
+
+.quickDates button:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.25);
+  outline-offset: 2px;
+}
+
+.priorityOptions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.priorityOption {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 10px 12px;
+  border: 1px solid #dbe2ea;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #334155;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
+}
+
+.priorityOption:hover {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+  transform: translateY(-1px);
+}
+
+.priorityOption:active {
+  transform: scale(0.98);
+}
+
+.priorityOption strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.priorityOption small {
+  display: block;
+  margin-top: 3px;
+  color: #94a3b8;
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.priorityDot {
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #94a3b8;
+}
+
+/* Selected priorities */
+
+.priorityLowActive {
+  border-color: #86efac;
+  background: #f0fdf4;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.08);
+}
+
+.priorityLowActive .priorityDot {
+  background: #22c55e;
+}
+
+.priorityMediumActive {
+  border-color: #facc15;
+  background: #fefce8;
+  box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.08);
+}
+
+.priorityMediumActive .priorityDot {
+  background: #eab308;
+}
+
+.priorityHighActive {
+  border-color: #fca5a5;
+  background: #fff1f2;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.08);
+}
+
+.priorityHighActive .priorityDot {
+  background: #ef4444;
 }
 
 /* Error */
@@ -107,6 +373,8 @@
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
+  padding-top: 4px;
+  border-top: 1px solid #eef2f7;
 }
 
 .button {
@@ -185,6 +453,19 @@
     margin-bottom: 18px;
   }
 
+  .priorityOptions {
+    grid-template-columns: 1fr;
+  }
+
+  .quickDates {
+    gap: 6px;
+  }
+
+  .quickDates button {
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+
   .actions {
     flex-direction: column;
     align-items: stretch;
@@ -193,4 +474,54 @@
   .button {
     width: 100%;
   }
+}
+
+.datePickerWrapper {
+  width: 100%;
+  display: block;
+}
+
+:global(.react-datepicker-wrapper) {
+  width: 100%;
+  display: block;
+}
+
+:global(.react-datepicker-popper) {
+  z-index: 9999 !important;
+}
+
+:global(.react-datepicker) {
+  border-radius: 12px !important;
+  border: 1px solid #dbe2ea !important;
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.08),
+    0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+  font-family: inherit !important;
+  overflow: hidden;
+}
+
+:global(.react-datepicker__header) {
+  background-color: #f8fafc !important;
+  border-bottom: 1px solid #eef2f7 !important;
+  padding-top: 12px !important;
+}
+
+:global(.react-datepicker__day--selected),
+:global(.react-datepicker__day--keyboard-selected) {
+  background-color: #6366f1 !important;
+  color: white !important;
+  border-radius: 6px !important;
+}
+
+:global(.react-datepicker__day:hover) {
+  border-radius: 6px !important;
+  background-color: #eef2ff !important;
+  color: #4f46e5 !important;
+}
+
+:global(.react-datepicker__day--today) {
+  font-weight: 700 !important;
+  color: #6366f1 !important;
+  border: 1px solid #6366f1 !important;
+  border-radius: 6px !important;
 }

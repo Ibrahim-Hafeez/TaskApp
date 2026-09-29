@@ -9,6 +9,7 @@ import {
 import { logoutUser } from "../../services/logoutService";
 import { checkSession } from "../../services/sessionService";
 import styles from "./TaskPage.module.css";
+import FilterDropdown from "../../components/common/FilterDropdown";
 
 function TaskPage() {
   const cachedTasks = getCachedTasks();
@@ -159,10 +160,25 @@ function TaskPage() {
   const handleFilterChange = (e) => {
     const { name, value, type, checked } = e.target;
 
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+    setFilters((prevFilters) => {
+      const nextValue = type === "checkbox" ? checked : value;
+
+      const nextFilters = {
+        ...prevFilters,
+        [name]: nextValue,
+      };
+
+      // Completed and Overdue cannot be active together.
+      if (name === "completed" && value === "true") {
+        nextFilters.overdue = false;
+      }
+
+      if (name === "overdue" && checked) {
+        nextFilters.completed = "false";
+      }
+
+      return nextFilters;
+    });
   };
 
   const clearFilters = () => {
@@ -268,7 +284,10 @@ function TaskPage() {
           </div>
 
           {/* Task Form */}
-          <div ref={formSectionRef} className={styles.card}>
+          <div
+            ref={formSectionRef}
+            className={`${styles.card} ${styles.taskFormCard}`}
+          >
             <h2 className={styles.cardTitle}>
               {editingTask ? "Edit Task" : "Add a New Task"}
             </h2>
@@ -282,58 +301,68 @@ function TaskPage() {
           </div>
 
           {/* Filters */}
-          <div className={styles.card}>
+          <div className={`${styles.card} ${styles.filterCard}`}>
             <h2 className={styles.cardTitle}>Filters</h2>
 
             <div className={styles.filterRow}>
-              <div className={styles.filterGroup}>
-                <label htmlFor="completedFilter">
-                  <strong>Status:</strong>
-                </label>
+              <FilterDropdown
+                label="Status:"
+                value={filters.completed}
+                options={[
+                  { value: "", label: "All" },
+                  { value: "false", label: "Pending" },
+                  { value: "true", label: "Completed" },
+                ]}
+                onChange={(value) =>
+                  setFilters((prevFilters) => ({
+                    ...prevFilters,
+                    completed: value,
+                    overdue: value === "true" ? false : prevFilters.overdue,
+                  }))
+                }
+              />
 
-                <select
-                  id="completedFilter"
-                  name="completed"
-                  value={filters.completed}
-                  onChange={handleFilterChange}
-                  className={styles.filterSelect}
-                >
-                  <option value="">All</option>
-                  <option value="false">Pending</option>
-                  <option value="true">Completed</option>
-                </select>
-              </div>
+              <FilterDropdown
+                label="Priority:"
+                value={filters.priority}
+                options={[
+                  { value: "", label: "All" },
+                  { value: "low", label: "Low" },
+                  { value: "medium", label: "Medium" },
+                  { value: "high", label: "High" },
+                ]}
+                onChange={(value) =>
+                  setFilters((prevFilters) => ({
+                    ...prevFilters,
+                    priority: value,
+                  }))
+                }
+              />
 
-              <div className={styles.filterGroup}>
-                <label htmlFor="priorityFilter">
-                  <strong>Priority:</strong>
-                </label>
+              <button
+                type="button"
+                className={`${styles.overdueToggle} ${
+                  filters.overdue ? styles.overdueToggleActive : ""
+                }`}
+                onClick={() =>
+                  setFilters((prevFilters) => {
+                    const overdue = !prevFilters.overdue;
 
-                <select
-                  id="priorityFilter"
-                  name="priority"
-                  value={filters.priority}
-                  onChange={handleFilterChange}
-                  className={styles.filterSelect}
-                >
-                  <option value="">All</option>
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
-                </select>
-              </div>
+                    return {
+                      ...prevFilters,
+                      overdue,
+                      completed: overdue ? "false" : prevFilters.completed,
+                    };
+                  })
+                }
+                aria-pressed={filters.overdue}
+              >
+                <span className={styles.overdueIndicator}>
+                  {filters.overdue ? "✓" : ""}
+                </span>
 
-              <label htmlFor="overdueFilter" className={styles.overdueLabel}>
-                <input
-                  id="overdueFilter"
-                  name="overdue"
-                  type="checkbox"
-                  checked={filters.overdue}
-                  onChange={handleFilterChange}
-                />
-
-                <strong>Overdue</strong>
-              </label>
+                <span>Overdue</span>
+              </button>
 
               <button
                 type="button"

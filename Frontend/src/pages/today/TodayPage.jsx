@@ -235,10 +235,10 @@ function TodayPage() {
                         type="button"
                         className={styles.focusButton}
                         onClick={() => {
-                          window.location.href = `/tasks?edit=${focusTask._id}`;
+                          window.location.href = `/focus?task=${focusTask._id}`;
                         }}
                       >
-                        Open Task
+                        Start Focus →
                       </button>
                     </>
                   ) : (
